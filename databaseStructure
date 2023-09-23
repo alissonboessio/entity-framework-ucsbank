@@ -1,0 +1,28 @@
+------------------------ Database structure ------------------------
+
+CREATE DATABASE MeuDinheiro;
+
+use MeuDinheiro;
+
+CREATE TABLE cliente(
+    id INT PRIMARY KEY IDENTITY,
+    nome VARCHAR(200) NOT NULL
+);
+
+CREATE TABLE conta_bancaria(
+    id int PRIMARY KEY IDENTITY,
+    cliente_id INT NOT NULL,
+    saldo DECIMAL(16,2) CHECK (saldo >= 0),
+
+    CONSTRAINT FK_cb_cli_cliente_id FOREIGN KEY (cliente_id) REFERENCES cliente(id)
+);
+
+CREATE TABLE extrato(
+    id int PRIMARY KEY IDENTITY,
+    conta_bancaria_id INTNOT NULL,
+    valor DECIMAL(16,2),
+    descricao VARCHAR(200),
+    data DATETIME2,
+
+    CONSTRAINT FK_extrato_cb_cb_id FOREIGN KEY (conta_bancaria_id) REFERENCES conta_bancaria(id)
+);
